@@ -10,8 +10,8 @@ FEATURE_CLASSES = ['pclass','age', 'sex', 'sibsp', 'parch', 'embarked', 'survive
 network = [20, 20, 20]
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--train_path', default="titanic_train.csv", type=str, help='Path to training data file')
-parser.add_argument('--test_path', default="titanic_test.csv", type=str, help='Path to test data file')
+parser.add_argument('--train_path', default="../data/titanic_train.csv", type=str, help='Path to training data file')
+parser.add_argument('--test_path', default="../data/titanic_test.csv", type=str, help='Path to test data file')
 parser.add_argument('--batch_size', default=100, type=int, help='batch size')
 parser.add_argument('--train_steps', default=1000, type=int,
                     help='number of training steps')
@@ -53,7 +53,7 @@ def main(argv):
 def load_data(train_path, test_path):
     tr_path, tr_filename = os.path.split(train_path)
     train_dir = get_data_path(
-                            dataset_name = "svenchmie/tut1_train/titanic_train.csv",
+                            dataset_name = "svenchmie/titanic_data/titanic_train.csv",
                             local_root = tr_path,
                             local_repo = tr_filename,
                             path = ''
@@ -64,7 +64,7 @@ def load_data(train_path, test_path):
 
     te_path, te_filename = os.path.split(test_path)
     test_dir = get_data_path(
-                            dataset_name = "svenchmie/tut1_train/titanic_test.csv",
+                            dataset_name = "svenchmie/titanic_data/titanic_test.csv",
                             local_root = te_path,
                             local_repo = te_filename,
                             path = ''
