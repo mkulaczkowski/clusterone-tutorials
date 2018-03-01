@@ -28,7 +28,7 @@ def main(argv):
     passenger_features.append(tf.feature_column.numeric_column(key='age'))
 
     classifier = tf.estimator.DNNClassifier(
-                                            hidden_units=[10, 10], 
+                                            hidden_units=[20, 20, 20], 
                                             feature_columns=passenger_features, 
                                             model_dir=log_path,
                                             n_classes=2)
