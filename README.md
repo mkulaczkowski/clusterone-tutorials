@@ -1,6 +1,6 @@
 # clusterone-tutorials
 
-This repository is a collection of tutorials for ClusterOne, TensorFlow, and other related things.
+This repository is a collection of tutorials for Clusterone, TensorFlow, and other related things.
 
 It is currently doing its baby steps, but it will get more crowded as we add more tutorials over time. 
 
