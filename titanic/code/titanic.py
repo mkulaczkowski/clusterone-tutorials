@@ -19,7 +19,7 @@ parser.add_argument('--train_steps', default=1000, type=int,
 def main(argv):
     args = parser.parse_args(argv[1:])
 
-    log_path = get_logs_path(root=os.path.abspath(os.path.expanduser('~/Documents/tf_logs/logs')))
+    log_path = get_logs_path(root=os.path.abspath(os.path.expanduser('~/Documents/tf_logs/logs/titanic')))
 
     train, test = load_data(args.train_path, args.test_path)
     (train_x, train_y), new_feature_classes = preprocess_data(train, ['sex', 'embarked'])
@@ -85,7 +85,7 @@ def preprocess_data(data, features):
 
 
 def label_to_onehot(data, feature_name):
-    # Use sklearn's encoders to turn the Sex feature into a one-hot vector
+    # Use sklearn's encoders to turn the feature into a one-hot vector
     label_encoder = LabelEncoder()
     numerical = label_encoder.fit_transform(data[feature_name])
     numerical_classes = label_encoder.classes_

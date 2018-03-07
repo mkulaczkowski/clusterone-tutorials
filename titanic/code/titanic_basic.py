@@ -19,7 +19,7 @@ parser.add_argument('--train_steps', default=1000, type=int,
 def main(argv):
     args = parser.parse_args(argv[1:])
 
-    log_path = get_logs_path(root=os.path.abspath(os.path.expanduser('~/Documents/tf_logs/logs')))
+    log_path = get_logs_path(root=os.path.abspath(os.path.expanduser('~/Documents/tf_logs/logs/titanic_basic')))
 
     (train_x, train_y), (test_x, test_y) = load_data(args.train_path, args.test_path)
 
