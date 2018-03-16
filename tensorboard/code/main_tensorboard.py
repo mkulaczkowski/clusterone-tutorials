@@ -7,6 +7,8 @@ from clusterone import get_data_path, get_logs_path
 LOCAL_DATA_PATH = os.path.abspath(os.path.expanduser('~/Documents/data/mnist'))
 LOCAL_LOGS_PATH = os.path.abspath(os.path.expanduser('~/Documents/tf_logs/mnist-tb/'))
 
+# Storage directory for the MNIST dataset. 
+# Returns LOCAL_DATA_PATH when running locally, '/data/malo/mnist' when running on Clusterone.
 data_dir = get_data_path(
                         dataset_name = "malo/mnist",
                         local_root = LOCAL_DATA_PATH,
@@ -14,36 +16,54 @@ data_dir = get_data_path(
                         path = ''
                         )
 
+# Storage dictory for the log files produced by this script.
 logs_dir = get_logs_path(LOCAL_LOGS_PATH)
+print('When runnning locally, start TensorBoard with: tensorboard --logdir %s' % logs_dir)
 
-# The MNIST dataset has 10 classes, representing the digits 0 through 9.
+# The MNIST dataset has 10 classes, representing the digits 0 through 9
 NUM_CLASSES = 10
 
-# The MNIST images are always 28x28 pixels.
+# The MNIST images are always 28x28 pixels
 IMAGE_SIZE = 28
 IMAGE_PIXELS = IMAGE_SIZE * IMAGE_SIZE
 
+# Each hidden layer gets 128 neurons
 hidden1_units = 128
 hidden2_units = 128
 
+# Further hyperparameters
 learning_rate = 0.1
 batch_size = 100
+train_steps = 10000
 
 
 def variable_summaries(var):
-  """Attach a lot of summaries to a Tensor (for TensorBoard visualization). Stolen from TF tutorial. """
-  with tf.name_scope('summaries'):
-    mean = tf.reduce_mean(var)
-    tf.summary.scalar('mean', mean)
-    with tf.name_scope('stddev'):
-      stddev = tf.sqrt(tf.reduce_mean(tf.square(var - mean)))
-    tf.summary.scalar('stddev', stddev)
-    tf.summary.scalar('max', tf.reduce_max(var))
-    tf.summary.scalar('min', tf.reduce_min(var))
-    tf.summary.histogram('histogram', var)
+    """ Calculate a variety of TensorBoard summary values for each tensor.
+        This code is taken from the TensorFlow tutorial for TensorBoard,
+    """
+    with tf.name_scope('summaries'):
+        mean = tf.reduce_mean(var)
+        tf.summary.scalar('mean', mean)
+        with tf.name_scope('stddev'):
+            stddev = tf.sqrt(tf.reduce_mean(tf.square(var - mean)))
+        tf.summary.scalar('stddev', stddev)
+        tf.summary.scalar('max', tf.reduce_max(var))
+        tf.summary.scalar('min', tf.reduce_min(var))
+        tf.summary.histogram('histogram', var)
 
-def bare_inference(images):
-    # Building model based on TF mnist 
+
+def main(argv):
+    ### Load the data using TensorFlow's MNIST tutorial function read_data_sets()
+    data = read_data_sets(data_dir,
+            one_hot=False,
+            fake_data=False)
+
+    ### Create the input variables for images and their labels
+    with tf.name_scope('input'):
+        images = tf.placeholder(tf.float32, [None, IMAGE_PIXELS], name='images')
+        labels = tf.placeholder(tf.float32, [None], name='labels')
+
+    ### Build the neural network. It consists of two hidden layers with ReLu activation functions and a linear output layer.
     # Hidden layer 1
     with tf.name_scope('hidden1'):
         with tf.name_scope('weights'):
@@ -80,58 +100,53 @@ def bare_inference(images):
             logits = tf.matmul(hidden2, weights_linear) + biases_linear
             tf.summary.histogram('activations', logits)
 
-    return logits
-
-def loss(logits, labels):
+    ### Define the loss calculation based on the labels
     with tf.name_scope('cross_entropy'):
-        return tf.losses.sparse_softmax_cross_entropy(labels=tf.to_int64(labels), logits=logits)
+        loss = tf.losses.sparse_softmax_cross_entropy(labels=tf.to_int64(labels), logits=logits)
+    tf.summary.scalar('Loss', loss)
 
-def bare_training(loss, learning_rate):
+    ### Define the training operation
     with tf.name_scope('train'):
         optimizer = tf.train.GradientDescentOptimizer(learning_rate)
         global_step = tf.Variable(0, trainable=False)
         train_op = optimizer.minimize(loss, global_step=global_step)
-    return train_op
 
-
-def main(argv):
-    data = read_data_sets(data_dir,
-            one_hot=False,
-            fake_data=False)
-
-    with tf.name_scope('input'):
-        images = tf.placeholder(tf.float32, [None, IMAGE_PIXELS], name='images')
-        labels = tf.placeholder(tf.float32, [None], name='labels')
-
-    logits = bare_inference(images)
-    loss_ = loss(logits, labels)
-    tf.summary.scalar('Loss', loss_)
-    train_op = bare_training(loss_, learning_rate)
-
+    ### Define the accuracy calculation
     with tf.name_scope('Accuracy'):
         correct_prediction = tf.equal(tf.argmax(logits, 1), tf.to_int64(labels))
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
         tf.summary.scalar('Accuracy', accuracy)
 
+    ### Create the session object and initialize the variables
     sess = tf.InteractiveSession()
     tf.global_variables_initializer().run()
 
-    # writer = tf.summary.FileWriter(logs_dir, graph=sess.graph)
+    ### Create summary writers for test and train operations
     train_writer = tf.summary.FileWriter(logs_dir + '/train', graph=sess.graph)
     test_writer = tf.summary.FileWriter(logs_dir + '/test')
     summary_op = tf.summary.merge_all()
 
+    print('Start training...')
 
-    for i in range(55000):
-        if i % 10 == 0:  # execute every 10th iteration
+    ### Train the model
+    for i in range(train_steps):
+
+        # Every 10th iteration, calculate accuracy and write to summary for TensorBoard
+        if i % 10 == 0:
             test_summary, acc = sess.run([summary_op, accuracy], feed_dict={images: data.test.images, labels: data.test.labels})
             test_writer.add_summary(test_summary, i)
+
+            # Every 100th iteration, print accuracy to console
             if i % 100 == 0:
                 print('Accuracy at step %s: %s' % (i, acc))
+        
+        # Training step is executed here
         else:
             xs, ys = data.train.next_batch(batch_size)
             train_summary, _ = sess.run([summary_op, train_op], feed_dict={images: xs, labels: ys})
             train_writer.add_summary(train_summary, i)
+
+    print('Training complete.')
 
 
 if __name__ == "__main__":
