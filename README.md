@@ -1,7 +1,17 @@
-# clusterone-tutorials
+# Clusterone Tutorial Collection
 
-This repository is a collection of tutorials for Clusterone, TensorFlow, and other related things.
+<p align="center">
+<img src="C:\Users\GoBigEmma\Documents\GitHub\mnist\co_logo.png" alt="Clusterone" width="200">
+<br>
+<br>
+<a href="https://slackin-altdyjrdgq.now.sh"><img src="https://slackin-altdyjrdgq.now.sh/badge.svg" alt="join us on slack"></a>
+</p>
 
-It is currently doing its baby steps, but it will get more crowded as we add more tutorials over time. 
+This repository is a collection of tutorials for [Clusterone](https://clusterone.com), [TensorFlow](https://tensorflow.org), and other related things. The tutorials themselves are published on the [Clusterone blog](https://medium.com/clusterone), while the code lives here in this repository.
 
-You can also contribute! Let us know if you have a tutorial you would like us to add here!
+Currently, there are 2 tutorials available:
+
+- [The Titanic Tutorial](titanic/): A basic TensorFlow tutorial utilizing TensorFlow 1.5 and its new high-level Estimators. The code trains a model to predict the survival of passengers of the Titanic based on the passenger list.
+- [How to Use TensorBoard](tensorboard/): An introduction to TensorFlow's visualization suite, containing information how to create graphs, scalar plots, output images, and more.
+
+Each tutorial has its own README file that explains how to get the code running. If you have any questions, comments, or ideas, please feel free to reach out to us on [clusterone.com](https://clusterone.com) or on [Slack](https://slack.clusterone.com)!
