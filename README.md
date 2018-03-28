@@ -1,7 +1,7 @@
 # Clusterone Tutorial Collection
 
 <p align="center">
-<img src="C:\Users\GoBigEmma\Documents\GitHub\mnist\co_logo.png" alt="Clusterone" width="200">
+<img src="co_logo.png" alt="Clusterone" width="200">
 <br>
 <br>
 <a href="https://slackin-altdyjrdgq.now.sh"><img src="https://slackin-altdyjrdgq.now.sh/badge.svg" alt="join us on slack"></a>
