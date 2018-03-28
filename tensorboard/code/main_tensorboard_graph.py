@@ -42,21 +42,6 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--keeplogs' '-k', action='store_true', help="Don't delete log files from previous runs")
 
 
-def variable_summaries(var):
-    """ Calculate a variety of TensorBoard summary values for each tensor.
-        This code is taken from the TensorFlow tutorial for TensorBoard,
-    """
-    with tf.name_scope('summaries'):
-        mean = tf.reduce_mean(var)
-        tf.summary.scalar('mean', mean)
-        with tf.name_scope('stddev'):
-            stddev = tf.sqrt(tf.reduce_mean(tf.square(var - mean)))
-            tf.summary.scalar('stddev', stddev)
-        tf.summary.scalar('max', tf.reduce_max(var))
-        tf.summary.scalar('min', tf.reduce_min(var))
-        tf.summary.histogram('histogram', var)
-
-
 def main(argv):
     ### Parse command line arguments
     args = parser.parse_args(argv[1:])
@@ -86,42 +71,32 @@ def main(argv):
     with tf.name_scope('hidden1'):
         with tf.name_scope('weights'):
             weights1 = tf.Variable(tf.truncated_normal([IMAGE_PIXELS, hidden1_units], stddev=1.0 / math.sqrt(float(IMAGE_PIXELS))), name='weights1')
-            variable_summaries(weights1)
         with tf.name_scope('biases'):
             biases1 = tf.Variable(tf.zeros([hidden1_units]), name='biases1')
-            variable_summaries(biases1)
         with tf.name_scope('activation_relu'):
             hidden1 = tf.nn.relu(tf.matmul(images, weights1) + biases1)
-            tf.summary.histogram('activations', hidden1)
 
     # Hidden layer 2
     with tf.name_scope('hidden2'):
         with tf.name_scope('weights'):
             weights2 = tf.Variable(tf.truncated_normal([hidden1_units, hidden2_units], stddev=1.0 / math.sqrt(float(hidden1_units))), name='weights2')
-            variable_summaries(weights2)
         with tf.name_scope('biases'):
             biases2 = tf.Variable(tf.zeros([hidden2_units]), name='biases2')
-            variable_summaries(biases2)
         with tf.name_scope('activation_rel'):
             hidden2 = tf.nn.relu(tf.matmul(hidden1, weights2) + biases2)
-            tf.summary.histogram('activations', hidden2)
 
     # Linear
     with tf.name_scope('linear'):
         with tf.name_scope('weights'):
             weights_linear = tf.Variable(tf.truncated_normal([hidden2_units, NUM_CLASSES], stddev=1.0 / math.sqrt(float(hidden2_units))), name='weights_linear')
-            variable_summaries(weights_linear)
         with tf.name_scope('biases'):
             biases_linear = tf.Variable(tf.zeros([NUM_CLASSES]), name='biases_linear')
-            variable_summaries(biases_linear)
         with tf.name_scope('activation_linear'):
             logits = tf.matmul(hidden2, weights_linear) + biases_linear
-            tf.summary.histogram('activations', logits)
 
     ### Define the loss calculation based on the labels
     with tf.name_scope('cross_entropy'):
         loss = tf.losses.sparse_softmax_cross_entropy(labels=tf.to_int64(labels), logits=logits)
-    tf.summary.scalar('Loss', loss)
 
     ### Define the training operation
     with tf.name_scope('train'):
@@ -133,36 +108,28 @@ def main(argv):
     with tf.name_scope('Accuracy'):
         correct_prediction = tf.equal(tf.argmax(logits, 1), tf.to_int64(labels))
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-        tf.summary.scalar('Accuracy', accuracy)
 
     ### Create the session object and initialize the variables
     sess = tf.InteractiveSession()
     tf.global_variables_initializer().run()
 
-    ### Create summary writers for test and train operations
+    ### Create summary writers for train operation
     train_writer = tf.summary.FileWriter(logs_dir + '/train', graph=sess.graph)
-    test_writer = tf.summary.FileWriter(logs_dir + '/test')
-    summary_op = tf.summary.merge_all()
 
     print('Start training...')
 
     ### Train the model
     for i in range(train_steps):
 
-        # Every 10th iteration, calculate accuracy and write to summary for TensorBoard
-        if i % 10 == 0:
-            test_summary, acc = sess.run([summary_op, accuracy], feed_dict={images: data.test.images, labels: data.test.labels})
-            test_writer.add_summary(test_summary, i)
-
-            # Every 100th iteration, print accuracy to console
-            if i % 100 == 0:
-                print('Accuracy at step %s: %s' % (i, acc))
+        # Every 100th iteration, calculate accuracy and print it to the console
+        if i % 100 == 0:
+            acc = sess.run(accuracy, feed_dict={images: data.test.images, labels: data.test.labels})
+            print('Accuracy at step %s: %s' % (i, acc))
         
         # Training step is executed here
         else:
             xs, ys = data.train.next_batch(batch_size)
-            train_summary, _ = sess.run([summary_op, train_op], feed_dict={images: xs, labels: ys})
-            train_writer.add_summary(train_summary, i)
+            sess.run(train_op, feed_dict={images: xs, labels: ys})
 
     print('Training complete.')
 
