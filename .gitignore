@@ -1,2 +1,2 @@
 tensorboard/data
-tensorboard/code/logs 
+tensorboard/code/*/logs 

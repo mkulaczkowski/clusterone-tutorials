@@ -7,7 +7,7 @@ import numpy as np
 from tensorflow.contrib.learn.python.learn.datasets.mnist import read_data_sets
 from clusterone import get_data_path, get_logs_path
 
-LOCAL_DATA_PATH = os.path.abspath(os.path.expanduser('../data/'))
+LOCAL_DATA_PATH = os.path.abspath(os.path.expanduser('../../data/'))
 LOCAL_LOGS_PATH = os.path.abspath(os.path.expanduser('logs/'))
 
 # Storage directory for the MNIST dataset. 
