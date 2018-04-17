@@ -11,12 +11,12 @@ This is a tutorial on how to use [TensorBoard](https://github.com/tensorflow/ten
 
 The tutorial is separated into parts. Part 1 introduces graphs, scalar plots, and histograms. Part 2 will focus on outputting images to TensorBoard.
 
-Follow the instructions below to run the tutorial code locally and on Clusterone. 
-
-These links get you to the tutorials on Clusterone's blog:
+These links get you to the tutorials on the Clusterone blog:
 
 - [Part 1: Graphs, Scalars, and Histograms](https://medium.com/clusterone/tensorflow-tensorboard-tutorial-graph-scalar-histogram-dff790883f25)
 - Part 2: Images _(not published yet)_
+
+Follow the instructions below to run the tutorial code locally and on Clusterone. 
 
 ## Table of Contents
 
@@ -61,13 +61,13 @@ You can run the code on your local machine, as well as on Clusterone without cha
 
 ### Run the code locally
 
-Navigate into the [code](code) directory. Assuming all packages are installed correctly, you can run all script with `python <script-name>`. The script will print the necessary command to launch TensorBoard to the console.
+Navigate into the directory for [part 1](code/part_1/) or [part 2](code/part_2/) of the tutorial. Assuming all packages are installed correctly, you can run all script with `python <script-name>`. The script will print the necessary command to launch TensorBoard to the console.
 
 ### Run on Clusterone
 
 These instructions use the `just` command line tool. It comes with the Clusterone Python library and is installed automatically with the library.
 
-cd into the [code](code) folder and log into your Clusterone account using `just login`.
+cd into the [part 1](code/part_1/) or [part 2](code/part_2) folder and log into your Clusterone account using `just login`.
 
 First, create a new git repository in the code directory and commit the Python files to it:
 
