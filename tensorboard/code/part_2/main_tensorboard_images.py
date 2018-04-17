@@ -3,6 +3,7 @@ import argparse
 import os
 import math
 import shutil
+import cv2
 import numpy as np
 from tensorflow.contrib.learn.python.learn.datasets.mnist import read_data_sets
 from clusterone import get_data_path, get_logs_path
@@ -36,7 +37,7 @@ hidden2_units = 128
 # Further hyperparameters
 learning_rate = 0.5
 batch_size = 100
-train_steps = 1000
+train_steps = 8000
 
 # Configure command line argument parser
 parser = argparse.ArgumentParser()
@@ -58,20 +59,23 @@ def variable_summaries(var):
         tf.summary.histogram('histogram', var)
 
 
-def get_wrong_images(predictions_bool, predictions, data):
+def get_misclassified_images(predictions_bool, predictions, data):
     """ Group all images that have been incorrectly classified into a tensor
         that can be read by TensorBoard.
     """
     wrong_predictions = [count for count, p in enumerate(predictions_bool) if not p]
-    wrong_images = np.zeros((len(wrong_predictions), IMAGE_PIXELS))
+    wrong_images = np.zeros((len(wrong_predictions), IMAGE_SIZE*2, IMAGE_SIZE, 1))
 
     for count, index in enumerate(wrong_predictions):
-        img = data.test.images[index]
-        wrong_images[count] = img
-        
+        correct_number = np.zeros((IMAGE_SIZE, IMAGE_SIZE, 1))
+        cv2.putText(correct_number, str(predictions[index]),(5,25), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
+        predicted_number = np.reshape(data.test.images[index], (IMAGE_SIZE, IMAGE_SIZE, 1))
+        img = np.append(predicted_number, correct_number, axis=0)
+        wrong_images[count] = 1-img
+    
     print("%s images have been incorrectly classified." % len(wrong_predictions))
-    image_summary_op = tf.summary.image('images', tf.reshape(wrong_images, [-1, IMAGE_SIZE, IMAGE_SIZE, 1]), 10)
-    return image_summary_op, wrong_images
+    image_summary_op = tf.summary.image('images', tf.reshape(wrong_images, [-1, IMAGE_SIZE, IMAGE_SIZE, 1]), 50)
+    return image_summary_op, np.reshape(wrong_images, [-1, IMAGE_PIXELS])  # reshape to make sure it's right for the TB tensor
 
 
 def main(argv):
@@ -170,7 +174,6 @@ def main(argv):
     for i in range(train_steps):
         # Every 10th iteration, calculate accuracy and write to summary for TensorBoar
         if i % 10 == 0:
-            # TODO: remove preditions_bool_op here and test
             test_summary, acc = sess.run([summary_op, accuracy_op], feed_dict={images: data.test.images, labels: data.test.labels})
             test_writer.add_summary(test_summary, i)
 
@@ -180,10 +183,10 @@ def main(argv):
 
         # At the last step, add the incorrectly classified images to TensorBoard        
         elif i == train_steps-1:
-            pred, pred_bool = sess.run([predictions_op, correct_prediction_op], feed_dict={images: data.test.images, labels: data.test.labels}) # do I really need this?
-            image_summary_op, wrong_images = get_wrong_images(pred_bool, pred, data)
-            image_sum = sess.run(image_summary_op, feed_dict={tb_images: wrong_images})
-            test_writer.add_summary(image_sum, i)
+            pred, pred_bool = sess.run([predictions_op, correct_prediction_op], feed_dict={images: data.test.images, labels: data.test.labels})
+            image_summary_op, wrong_images = get_misclassified_images(pred_bool, pred, data)
+            image_summary = sess.run(image_summary_op, feed_dict={tb_images: wrong_images})
+            test_writer.add_summary(image_summary, i)
 
         # Training step is executed here
         else:
