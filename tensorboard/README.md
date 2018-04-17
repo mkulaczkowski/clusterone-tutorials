@@ -9,9 +9,14 @@
 
 This is a tutorial on how to use [TensorBoard](https://github.com/tensorflow/tensorboard), TensorFlow's visualization suite. The code uses [TensorFlow](https://tensorflow.org) and the [MNIST](http://yann.lecun.com/exdb/mnist/) dataset.
 
-Follow the instructions below to run the tutorial code locally and on Clusterone. To learn about TensorBoard, read the TensorBoard tutorial (*Not published yet*).
+The tutorial is separated into parts. Part 1 introduces graphs, scalar plots, and histograms. Part 2 will focus on outputting images to TensorBoard.
 
+Follow the instructions below to run the tutorial code locally and on Clusterone. 
 
+These links get you to the tutorials on Clusterone's blog:
+
+- [Part 1: Graphs, Scalars, and Histograms](https://medium.com/clusterone/tensorflow-tensorboard-tutorial-graph-scalar-histogram-dff790883f25)
+- Part 2: Images _(not published yet)_
 
 ## Table of Contents
 
@@ -42,11 +47,15 @@ git clone https://github.com/clusterone/clusterone-tutorials
 
 The tutorial code is divided into multiple stand-alone files.
 
-- [main_bare.py](code/main_bare.py): A simple implementation of MNIST handwritten digit recognition. This file doesn't contain any visualization with TensorBoard and serves as the starting point for the tutorial.
-- [main_tensorboard_graph.py](code/main_tensorboard_graph.py): Adds names and `tf.name_scope` to the code to produce a network graph in TensorBoard.
-- [main_tensorboard.py](code/main_tensorboard.py): Extends main_tensorboard_graph to include scalar plots using `tf.summary`, as well as histograms.
-- [main_tensorboard_images.py](code/main_tensorboard_images.py): Includes images of misclassified MNIST digits in TensorBoard.
-- [main_tensorboard_embeddings.py](code/main_tensorboard_embeddings.py): Experimental script to visualize the learning process iwith embeddings. Work in progress.
+Part 1:
+
+- [main_bare.py](code/part_1/main_bare.py): A simple implementation of MNIST handwritten digit recognition. This file doesn't contain any visualization with TensorBoard and serves as the starting point for the tutorial.
+- [main_tensorboard_graph.py](code/part_1/main_tensorboard_graph.py): Adds names and `tf.name_scope` to the code to produce a network graph in TensorBoard.
+- [main_tensorboard.py](code/part_1/main_tensorboard.py): Extends main_tensorboard_graph to include scalar plots using `tf.summary`, as well as histograms.
+
+Part 2:
+
+- [main_tensorboard_images.py](code/part_2/main_tensorboard_images.py): Includes images of misclassified MNIST digits in TensorBoard.
 
 You can run the code on your local machine, as well as on Clusterone without changing the code.
 
@@ -96,7 +105,7 @@ That's it! You can monitor its progress on the command line using `just get even
 
 ## More Info
 
-To learn more about this tutorial, take a look at the corresponding article on our blog (*not published yet*).
+To learn more about this tutorial, take a look at the corresponding articles on our [blog](https://medium.com/clusterone/tutorials)!
 
 For further info on the MNIST dataset, check out [Yann LeCun's page](http://yann.lecun.com/exdb/mnist/) about it. To learn more about TensorFlow and Deep Learning in general, take a look at the [TensorFlow](https://tensorflow.org) website.
 
