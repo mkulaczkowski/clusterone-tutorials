@@ -35,6 +35,10 @@ To run the code, you need:
 - The Clusterone Python library. Install it with `pip install clusterone`
 - To run the code on Clusterone, you need a Clusterone account. [Sign up](https://clusterone.com/) for free here.
 
+For part 2 of the tutorial, you also need the following Python packages:
+- [OpenCV](https://opencv.org/). Install it with `pip install opencv-python`
+- [Numpy](http://www.numpy.org/). Get it using `pip install numpy`
+
 ### Setting Up
 
 All you need to do is to clone this repository onto your local machine:
