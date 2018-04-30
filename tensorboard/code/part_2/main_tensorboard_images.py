@@ -41,7 +41,7 @@ train_steps = 8000
 
 # Configure command line argument parser
 parser = argparse.ArgumentParser()
-parser.add_argument('--keeplogs' '-k', action='store_true', help="Don't delete log files from previous runs")
+parser.add_argument('--keeplogs', action='store_true', help="Don't delete log files from previous runs")
 
 
 def variable_summaries(var):
@@ -86,7 +86,7 @@ def main(argv):
     print('Storing logs in: %s' % logs_dir)
 
     ### Prepare logs directory
-    if not args.keeplogs_k and os.path.isdir(logs_dir):
+    if not args.keeplogs and os.path.isdir(logs_dir):
         print('Found previous log files. Deleting...')
         shutil.rmtree(logs_dir)
 
