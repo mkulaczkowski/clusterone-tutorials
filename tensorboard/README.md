@@ -96,7 +96,7 @@ git push clusterone master
 Finally, create a job. Note that `<MODULE-NAME>` is the name of the Python file. Depending on which file you want to run, this can be `main_tensorboard`, `main_tensorboard_images`, and so on.
 
 ```shell
-just create job single --project tensorboard --module <MODULE-NAME> --name tb-job --time-limit 1h
+just create job single --project tensorboard --module <MODULE-NAME> --name tb-job --python-version 3 --keeplogs "" --time-limit 1h
 ```
 
 Now all that's left to do is starting the job:
