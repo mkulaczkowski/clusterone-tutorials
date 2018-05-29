@@ -9,12 +9,12 @@
 
 This is a tutorial on how to use [TensorBoard](https://github.com/tensorflow/tensorboard), TensorFlow's visualization suite. The code uses [TensorFlow](https://tensorflow.org) and the [MNIST](http://yann.lecun.com/exdb/mnist/) dataset.
 
-The tutorial is separated into parts. Part 1 introduces graphs, scalar plots, and histograms. Part 2 will focus on outputting images to TensorBoard.
+The tutorial is separated into parts. Part 1 introduces graphs, scalar plots, and histograms. Part 2 focuses on outputting images to TensorBoard.
 
 These links get you to the tutorials on the Clusterone blog:
 
-- [Part 1: Graphs, Scalars, and Histograms](https://medium.com/clusterone/tensorflow-tensorboard-tutorial-graph-scalar-histogram-dff790883f25)
-- Part 2: Images _(not published yet)_
+- [Part 1: Graphs, Scalars, and Histograms](https://clusterone.com/blog/2018/04/25/guide-tensorboard-graph-scalar-histogram/)
+- [Part 2: Images](https://clusterone.com/blog/2018/04/30/guide-effectively-using-tensorboard-part-2-images/)
 
 Follow the instructions below to run the tutorial code locally and on Clusterone. 
 
@@ -109,7 +109,7 @@ That's it! You can monitor its progress on the command line using `just get even
 
 ## More Info
 
-To learn more about this tutorial, take a look at the corresponding articles on our [blog](https://medium.com/clusterone/tutorials)!
+To learn more about this tutorial, take a look at the corresponding articles on our [blog](https://clusterone.com/blog/tutorials/)!
 
 For further info on the MNIST dataset, check out [Yann LeCun's page](http://yann.lecun.com/exdb/mnist/) about it. To learn more about TensorFlow and Deep Learning in general, take a look at the [TensorFlow](https://tensorflow.org) website.
 

@@ -7,7 +7,7 @@
 <a href="https://slackin-altdyjrdgq.now.sh"><img src="https://slackin-altdyjrdgq.now.sh/badge.svg" alt="join us on slack"></a>
 </p>
 
-This repository is a collection of tutorials for [Clusterone](https://clusterone.com), [TensorFlow](https://tensorflow.org), and other related things. The tutorials themselves are published on the [Clusterone blog](https://medium.com/clusterone), while the code lives here in this repository.
+This repository is a collection of tutorials for [Clusterone](https://clusterone.com), [TensorFlow](https://tensorflow.org), and other related things. The tutorials themselves are published on the [Clusterone blog](https://clusterone.com/blog), while the code lives here in this repository.
 
 Currently, there are 2 tutorials available:
 
