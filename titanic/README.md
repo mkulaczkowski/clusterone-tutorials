@@ -25,9 +25,9 @@ To run this project on your local machine, you need:
 - [Python](https://python.org/) 3.5
 - [Git](https://git-scm.com/)
 - The TensorFlow Python library. Install it using `pip install tensorflow`
-- The Clusterone Python library. Install it with `pip install clusterone==2.0.0a03`
+- The Clusterone Python library. Install it with `pip install clusterone`
 
-Additionally, to run the code on the Clusterone platform, you need a Clusterone account. [Sign up](https://clusterone.com/) for free if you don't have an account yet.
+Additionally, to run the code on the Clusterone platform, you need a Clusterone account. [Join the waitlist](https://clusterone.com/join-waitlist/) if you don't have an account yet.
 
 To get ready to use the Titanic tutorial, clone this repository to your machine:
 
