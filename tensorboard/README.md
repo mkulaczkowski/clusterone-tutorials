@@ -33,7 +33,7 @@ To run the code, you need:
 - [Git](https://git-scm.com/)
 - TensorFlow 1.5. Install it like this: `pip install tensorflow`
 - The Clusterone Python library. Install it with `pip install clusterone`
-- To run the code on Clusterone, you need a Clusterone account. [Sign up](https://clusterone.com/) for free here.
+- To run the code on Clusterone, you need a Clusterone account. [Join the waitlist](https://clusterone.com/join-waitlist/) here.
 
 For part 2 of the tutorial, you also need the following Python packages:
 - [OpenCV](https://opencv.org/). Install it with `pip install opencv-python`
