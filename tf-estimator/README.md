@@ -41,8 +41,6 @@ Start out by cloning this repository onto your local machine.
 git clone https://github.com/clusterone/clusterone-tutorials
 ```
 
---- continue here! --- 
-
 ## Usage
 
 You can run the tutorial code either on your local machine or on the Clusterone deep learning platform, even distributed over multiple GPUs. No code changes are necessary to switch between these modes.
