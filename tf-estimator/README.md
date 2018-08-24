@@ -27,7 +27,6 @@ To run the code, you need:
 - [Python](https://python.org/) 3.6
 - [Git](https://git-scm.com/)
 - TensorFlow 1.5. Install it like this: `pip install tensorflow`
-- [Keras](https://keras.io/). Install it using `pip install keras`
 - [NumPy](http://www.numpy.org/). Get it with `pip install numpy`
 - The Clusterone Python library. Install it with `pip install clusterone`
 - To run the code on Clusterone, you need a Clusterone account. [Join the waitlist](https://clusterone.com/join-waitlist/) here.
