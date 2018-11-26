@@ -31,21 +31,27 @@ To run the code, you need:
 
 - [Python](https://python.org/) 3.5
 - [Git](https://git-scm.com/)
-- TensorFlow 1.5. Install it like this: `pip install tensorflow`
+- TensorFlow 1.5+. Install it like this: `pip install tensorflow==1.7.0` (although the code may run with later versions, the code was written and tested using TF 1.7)
 - The Clusterone Python library. Install it with `pip install clusterone`
-- To run the code on Clusterone, you need a Clusterone account. [Join the waitlist](https://clusterone.com/join-waitlist/) here.
+- GitHub account (to run on Clusterone). Create an account for free on [https://github.com/](https://github.com/).
+- Clusterone account (to run on Clusterone). Create an account for free on [https://clusterone.com/](https://clusterone.com/).
 
 For part 2 of the tutorial, you also need the following Python packages:
 - [OpenCV](https://opencv.org/). Install it with `pip install opencv-python`
-- [Numpy](http://www.numpy.org/). Get it using `pip install numpy`
 
 ### Setting Up
 
+#### To run locally
 All you need to do is to clone this repository onto your local machine:
 
 ```shell
 git clone https://github.com/clusterone/clusterone-tutorials
 ```
+
+#### To run on Clusterone
+esFollow the [**Set Up**](https://docs.clusterone.com/get-started#set-up) section of the [Get Started](https://docs.clusterone.com/get-started) guide to add your GitHub personal access token to your Clusterone account.
+
+Then follow [Create a project](https://docs.clusterone.com/get-started#create-a-project) section to add clusterone-tutorials project. Use **`clusterone/clusterone-tutorials`** repository instead of what is shown in the guide.
 
 ## Usage
 
@@ -71,32 +77,27 @@ Navigate into the directory for [part 1](code/part_1/) or [part 2](code/part_2/)
 
 These instructions use the `just` command line tool. It comes with the Clusterone Python library and is installed automatically with the library.
 
-cd into the [part 1](code/part_1/) or [part 2](code/part_2) folder and log into your Clusterone account using `just login`.
-
-First, create a new git repository in the code directory and commit the Python files to it:
-
+First, let's make sure that you have the `clusterone-tutorials` project. Execute the command `just get projects` to see all your projects. You should see something like this:
 ```shell
-git init
-git add .
-git commit -m "Initial commit"
+>> just get projects
+All projects:
+
+| # | Project                       | Created at          | Description |
+|---|-------------------------------|---------------------|-------------|
+| 0 | username/clusterone-tutorials | 2018-11-26T14:05:12 |             |
 ```
+where `username` should be your Clusterone account name.
 
-Then, create a new project on Clusterone:
-
-```shell
-just init project tensorboard
-```
-
-Now, upload the code to the new project:
+Let's create a job. Below is an example. Replace the path to python script and `requirements.txt` to the ones you want to run.
 
 ```shell
-git push clusterone master
-```
-
-Finally, create a job. Note that `<MODULE-NAME>` is the name of the Python file. Depending on which file you want to run, this can be `main_tensorboard`, `main_tensorboard_images`, and so on.
-
-```shell
-just create job single --project tensorboard --module <MODULE-NAME> --name tb-job --python-version 3 --keeplogs "" --time-limit 1h
+just create job single \
+  --project clusterone-tutorials \
+  --name tb-job \
+  --command "python tensorboard/code/part_1/main_tensorboard.py" \
+  --setup-command "pip install -r tensorboard/code/part_1/requirements.txt" \
+  --docker-image tensorflow-1.8.0-cpu-py36 \
+  --instance-type aws-t2-small
 ```
 
 Now all that's left to do is starting the job:
@@ -109,7 +110,7 @@ That's it! You can monitor its progress on the command line using `just get even
 
 ## More Info
 
-To learn more about this tutorial, take a look at the corresponding articles on our [blog](https://clusterone.com/blog/tutorials/)!
+To learn more about this tutorial, take a look at the corresponding articles on our [tutorial](https://clusterone.com/tutorials) page!
 
 For further info on the MNIST dataset, check out [Yann LeCun's page](http://yann.lecun.com/exdb/mnist/) about it. To learn more about TensorFlow and Deep Learning in general, take a look at the [TensorFlow](https://tensorflow.org) website.
 
