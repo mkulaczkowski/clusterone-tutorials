@@ -3,23 +3,28 @@ import pandas as pd
 import argparse
 import os
 
-from clusterone import get_data_path, get_logs_path
+from clusterone import get_logs_path
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+
+MAIN_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 
 FEATURE_CLASSES = ['pclass','age', 'sex', 'sibsp', 'parch', 'embarked', 'survived']
 network = [20, 20, 20]
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--train_path', default="../data/titanic_train.csv", type=str, help='Path to training data file')
-parser.add_argument('--test_path', default="../data/titanic_test.csv", type=str, help='Path to test data file')
+parser.add_argument('--train_path', type=str, default=os.path.join(MAIN_DIR, "data", "titanic_train.csv"),
+                    help='Path to training data file')
+parser.add_argument('--test_path', type=str, default=os.path.join(MAIN_DIR, "data", "titanic_test.csv"),
+                    help='Path to test data file')
 parser.add_argument('--batch_size', default=100, type=int, help='batch size')
 parser.add_argument('--train_steps', default=1000, type=int,
                     help='number of training steps')
 
+
 def main(argv):
     args = parser.parse_args(argv[1:])
 
-    log_path = get_logs_path(root=os.path.abspath(os.path.expanduser('~/Documents/tf_logs/logs/titanic')))
+    log_path = get_logs_path(root='logs')
 
     train, test = load_data(args.train_path, args.test_path)
     (train_x, train_y), new_feature_classes = preprocess_data(train, ['sex', 'embarked'])
@@ -51,26 +56,10 @@ def main(argv):
 
 
 def load_data(train_path, test_path):
-    tr_path, tr_filename = os.path.split(train_path)
-    train_dir = get_data_path(
-                            dataset_name = "svenchmie/titanic_data/titanic_train.csv",
-                            local_root = tr_path,
-                            local_repo = tr_filename,
-                            path = ''
-                            )
-
-    train = pd.read_csv(train_dir[:-1], engine="python")
+    train = pd.read_csv(train_path)
     train = train[FEATURE_CLASSES].dropna(axis=0, how='any')
 
-    te_path, te_filename = os.path.split(test_path)
-    test_dir = get_data_path(
-                            dataset_name = "svenchmie/titanic_data/titanic_test.csv",
-                            local_root = te_path,
-                            local_repo = te_filename,
-                            path = ''
-                            )
-
-    test = pd.read_csv(test_dir[:-1], engine="python")
+    test = pd.read_csv(test_path, engine="python")
     test = test[FEATURE_CLASSES].dropna(axis=0, how='any')
     return train, test
 
