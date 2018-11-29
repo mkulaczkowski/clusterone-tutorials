@@ -6,7 +6,7 @@
 
 This is a tutorial on how to use TensorFlow's [Estimator class](https://www.tensorflow.org/api_docs/python/tf/estimator/Estimator), including creating an Estimator by importing a Keras model. The code uses the [MNIST](http://yann.lecun.com/exdb/mnist/) dataset.
 
-The tutorial itself is published on our [blog](https://clusterone.com/blog) and can be found [here](https://clusterone.com/blog/2018/09/19/distributed-tensorflow-estimator-class).
+The tutorial itself is published on our [blog](https://clusterone.com/tutorials) and can be found [here](https://clusterone.com/tutorials/distributed-tensorflow-part-2).
 
 Follow the instructions below to run the tutorial code locally and on Clusterone. 
 

@@ -2,14 +2,11 @@
 
 <p align="center">
 <img src="../co_logo.png" alt="Clusterone" width="200">
-<br>
-<br>
-<a href="https://slackin-altdyjrdgq.now.sh"><img src="https://slackin-altdyjrdgq.now.sh/badge.svg" alt="join us on slack"></a>
 </p>
 
 This tutorial teaches you how to use [TensorFlow](https://tensorflow.org) to predict the survival of passengers of the [RMS Titanic](https://en.wikipedia.org/wiki/RMS_Titanic) based on the passenger list of the vessel's tragic maiden voyage.
 
-This repository contains the code and data files required to run the tutorial model. For the tutorial itself, please [see here](https://clusterone.com/blog/2018/04/16/tensorflow-beginner-guide-titanic-dataset/).
+This repository contains the code and data files required to run the tutorial model. For the tutorial itself, please [see here](https://clusterone.com/tutorials/tensorflow-titanics).
 
 ## Table of Contents
 
