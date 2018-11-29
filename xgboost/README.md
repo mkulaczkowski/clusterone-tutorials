@@ -4,7 +4,7 @@
 <img src="../co_logo.png" alt="Clusterone" width="200">
 </p>
 
-This tutorial teaches you how to use distributed [XGBoost](https://xgboost.readthedocs.io).
+This tutorial presents an example to learn how to use distributed [XGBoost](https://xgboost.readthedocs.io).
 
 This repository contains the code and data files required to run the tutorial model. For the tutorial itself, please [see here](https://clusterone.com/tutorial/openmpi).
 
@@ -68,7 +68,7 @@ All projects:
 |---|-------------------------------|---------------------|-------------|
 | 0 | username/clusterone-tutorials | 2018-11-29T01:50:23 |             |
 ```
-where `username` should be your Clusterone account name.
+where `username` should be your Clusterone account name. If you don't have this project, then add a new project using existing github sources option and enter `clusteorne/clusterone-tutorials`. 
 
 Let's create a job. Make sure to replace `username` with your username.
 
@@ -84,7 +84,7 @@ just create job distributed \
     --ps-replicas 1 \
     --time-limit 1h \
     --command "/dmlc-core/tracker/dmlc-submit --cluster mpi --num-workers 3 python xgboost/main.py" \
-    --setup_command "pip install clusterone"
+    --setup-command "pip install clusterone"
 ```
 
 Now all that's left to do is starting the job:
