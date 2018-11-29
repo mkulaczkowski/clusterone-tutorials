@@ -80,8 +80,10 @@ just create job distributed \
     --ps-docker-image xgboost-0.81-cpu-py36-openmpi3.1.3 \
     --worker-type t2.small \
     --ps-type t2.small \
+    --worker-replicas 2 \
+    --ps-replicas 1 \
     --time-limit 1h \
-    --command "python xgboost/main.py" \
+    --command "/dmlc-core/tracker/dmlc-submit --cluster mpi --num-workers 3 python xgboost/main.py" \
     --setup_command "pip install clusterone"
 ```
 
