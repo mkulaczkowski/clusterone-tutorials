@@ -100,8 +100,8 @@ def parse_args():
     # Parse args
     opts = parser.parse_args()
 
-    opts.train_file_pattern = os.path.join(opts.absolute_data_dir, opts.train_file_pattern)
-    opts.test_file_pattern = os.path.join(opts.absolute_data_dir, opts.train_file_pattern)
+    opts.train_file_pattern = os.path.join(opts.data_dir, opts.train_file_pattern)
+    opts.test_file_pattern = os.path.join(opts.data_dir, opts.train_file_pattern)
     train_files = glob.glob(opts.train_file_pattern)
     test_files = glob.glob(opts.test_file_pattern)
 
