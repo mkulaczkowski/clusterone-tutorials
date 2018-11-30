@@ -24,7 +24,7 @@ To run this project on your local machine, you need:
 - [Git](https://git-scm.com/)
 - The TensorFlow Python library. Install it using `pip install tensorflow`
 - The Horovod Python library. Install it using `pip install horovod`
-- The Clusterone Python library. Install it with `pip install clusterone`
+- The Clusterone Python library. Install it using `pip install clusterone`
 
 If you're adventurous and want to test MPI locally, I suggest pulling a pre-built Docker image. For example, `docker pull uber/horovod:0.15.0-tf1.11.0-torch0.4.1-py3.5` (be warned, the image is 3GB--see more options [here](https://hub.docker.com/r/uber/horovod/tags/))
 
@@ -34,7 +34,7 @@ To run this project on Clusterone, you need:
 
 Make sure you've added your [GitHub access token](https://docs.clusterone.com/account/third-party-apps/github-account) to your account.
 
-Then link this repo (`clusterone/clusterone-tutorials`) as a project like shown [here](https://docs.clusterone.com/documentation/projects-on-clusterone/github-projects).
+Then link this repo (`clusterone/clusterone-tutorials`) as a project as shown [here](https://docs.clusterone.com/documentation/projects-on-clusterone/github-projects).
 
 ## Usage
 
