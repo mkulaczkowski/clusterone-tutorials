@@ -29,9 +29,9 @@ To run this project on Clusterone, you need:
 - GitHub account. Create a free account on [https://github.com/](https://github.com/).
 - Clusterone account. Create a free account on [https://clusterone.com/](https://clusterone.com/).
 
-Follow the **Set Up** section of the [Get Started](https://docs.clusterone.com/get-started#set-up) guide to add your GitHub personal access token to your Clusterone account.
+Make sure you've added your [GitHub access token](https://docs.clusterone.com/account/third-party-apps/github-account) to your account.
 
-Then follow [Create a project](https://docs.clusterone.com/get-started#create-a-project) section to add MNIST project. Use **`clusterone/clusterone-tutorials`** repository instead of what is shown in the guide.
+Then link this repo (`clusterone/clusterone-tutorials`) as a project like shown [here](https://docs.clusterone.com/documentation/projects-on-clusterone/github-projects).
 
 ## Usage
 
@@ -45,7 +45,7 @@ Start out by cloning this repository onto your local machine.
 git clone https://github.com/clusterone/clusterone-tutorials
 ```
 
-Then cd into the xgboost folder with `cd clusterone-tutorials/xgboost`.
+Then cd into the xgboost folder with `cd clusterone-tutorials/openmpi/xgboost`.
 
 Single instance mode is very simple. You just execute main.py:
 ```shell
@@ -94,8 +94,6 @@ just start job clusterone-tutorials/xgboost-job
 ```
 
 That's it! You can monitor its progress on the command line using `just get events`. More elaborate monitoring is available on the [Matrix](https://clusterone.com/matrix), Clusterone's graphical web interface.
-
-To monitor your job, head to the [Matrix](https://clusterone.com/matrix), Clusterone's graphical web interface.
 
 ## More info
 For XGBoost's tutorial on distributed training, see [here](https://xgboost.readthedocs.io/en/latest/tutorials/aws_yarn.html).
