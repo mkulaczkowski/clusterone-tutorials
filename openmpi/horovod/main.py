@@ -154,7 +154,8 @@ def main(opts):
         save_summary_steps=opts.save_summary_steps,
         save_checkpoints_steps=opts.ckpt_steps,
         keep_checkpoint_max=opts.max_ckpts,
-        log_step_count_steps=opts.log_step_count_steps)
+        log_step_count_steps=opts.log_step_count_steps,
+        session_config=config)
 
     estimator = tf.estimator.Estimator(
         model_fn=get_model_fn(opts),
