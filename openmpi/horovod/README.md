@@ -32,7 +32,7 @@ To run this project on Clusterone, you need:
 - GitHub account. Create a free account on [https://github.com/](https://github.com/).
 - Clusterone account. Create a free account on [https://clusterone.com/](https://clusterone.com/).
 
-Make sure you've added your [GitHub access token]((https://docs.clusterone.com/account/third-party-apps/github-account)) to your account.
+Make sure you've added your [GitHub access token](https://docs.clusterone.com/account/third-party-apps/github-account) to your account.
 
 Then link this repo (`clusterone/clusterone-tutorials`) as a project like shown [here](https://docs.clusterone.com/documentation/projects-on-clusterone/github-projects).
 
@@ -48,7 +48,7 @@ Start out by cloning this repository onto your local machine.
 git clone https://github.com/clusterone/clusterone-tutorials
 ```
 
-Then cd into the xgboost folder with `cd clusterone-tutorials/openmpi/xgboost`.
+Then cd into the xgboost folder with `cd clusterone-tutorials/openmpi/horovod`.
 
 Single instance mode is very simple. You just execute main.py:
 ```shell
@@ -79,7 +79,7 @@ All projects:
 |---|-------------------------------|---------------------|-------------|
 | 0 | username/clusterone-tutorials | 2018-11-29T01:50:23 |             |
 ```
-where `username` should be your Clusterone account name. If you don't have this project, then add a new project using existing github sources option and enter `clusteorne/clusterone-tutorials`. 
+where `username` should be your Clusterone account name. If you don't have this project, see [Install](#install) section to add a new project using existing GitHub sources option and enter `clusteorne/clusterone-tutorials`. 
 
 Let's create a job. Make sure to replace `username` with your username.
 
@@ -105,8 +105,6 @@ just start job clusterone-tutorials/horovod-job
 ```
 
 That's it! You can monitor its progress on the command line using `just get events`. More elaborate monitoring is available on the [Matrix](https://clusterone.com/matrix), Clusterone's graphical web interface.
-
-To monitor your job, head to the [Matrix](https://clusterone.com/matrix), Clusterone's graphical web interface.
 
 ## More info
 Horovod's GitHub [repo](https://github.com/uber/horovod/blob/master/docs/running.md) has good explanation of the -mca params. They also have good set of [examples](https://github.com/uber/horovod/tree/master/examples).
