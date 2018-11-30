@@ -1,12 +1,12 @@
-# Titanic Tutorial
+# Horovod Tutorial
 
 <p align="center">
-<img src="../co_logo.png" alt="Clusterone" width="200">
+<img src="../../co_logo.png" alt="Clusterone" width="200">
 </p>
 
-This tutorial presents an example to learn how to use distributed [XGBoost](https://xgboost.readthedocs.io).
+This tutorial presents an example to learn how to use [Horovod](https://github.com/uber/horovod).
 
-This repository contains the code and data files required to run the tutorial model. For the tutorial itself, please [see here](https://clusterone.com/tutorial/openmpi).
+This repository contains the code required to run the tutorial model. For the tutorial itself, please [see here](https://clusterone.com/tutorial/openmpi-introduction).
 
 ## Table of Contents
 
@@ -22,16 +22,19 @@ To run this project on your local machine, you need:
 
 - [Python](https://python.org/) 3.5
 - [Git](https://git-scm.com/)
-- The XGBoost Python library. Install it using `pip install xgboost`
-- The Clusterone Python library. Install it with `pip install clusterone`
+- The TensorFlow Python library. Install it using `pip install tensorflow`
+- The Horovod Python library. Install it using `pip install horovod`
+- The Clusterone Python library. Install it using `pip install clusterone`
+
+If you're adventurous and want to test MPI locally, I suggest pulling a pre-built Docker image. For example, `docker pull uber/horovod:0.15.0-tf1.11.0-torch0.4.1-py3.5` (be warned, the image is 3GB--see more options [here](https://hub.docker.com/r/uber/horovod/tags/))
 
 To run this project on Clusterone, you need:
 - GitHub account. Create a free account on [https://github.com/](https://github.com/).
 - Clusterone account. Create a free account on [https://clusterone.com/](https://clusterone.com/).
 
-Follow the **Set Up** section of the [Get Started](https://docs.clusterone.com/get-started#set-up) guide to add your GitHub personal access token to your Clusterone account.
+Make sure you've added your [GitHub access token](https://docs.clusterone.com/account/third-party-apps/github-account) to your account.
 
-Then follow [Create a project](https://docs.clusterone.com/get-started#create-a-project) section to add MNIST project. Use **`clusterone/clusterone-tutorials`** repository instead of what is shown in the guide.
+Then link this repo (`clusterone/clusterone-tutorials`) as a project as shown [here](https://docs.clusterone.com/documentation/projects-on-clusterone/github-projects).
 
 ## Usage
 
@@ -45,12 +48,20 @@ Start out by cloning this repository onto your local machine.
 git clone https://github.com/clusterone/clusterone-tutorials
 ```
 
-Then cd into the xgboost folder with `cd clusterone-tutorials/xgboost`.
+Then cd into the xgboost folder with `cd clusterone-tutorials/openmpi/horovod`.
 
 Single instance mode is very simple. You just execute main.py:
 ```shell
 python main.py
 ```
+
+For distributed mode, you need to have a working MPI. If you have Docker, you can do this:
+```shell
+docker run -it -v $(pwd):/code uber/horovod:0.15.0-tf1.11.0-torch0.4.1-py3.5 /bin/bash
+uber/horovod> cd /code
+uber/horovod> mpirun --allow-run-as-root -np 3 -H localhost:3 -bind-to none -map-by slot -mca pml ob1 -mca btl ^openib python main.py
+```
+This will start three local processes running synchronous distributed training.
 
 ### Clusterone
 
@@ -68,37 +79,35 @@ All projects:
 |---|-------------------------------|---------------------|-------------|
 | 0 | username/clusterone-tutorials | 2018-11-29T01:50:23 |             |
 ```
-where `username` should be your Clusterone account name. If you don't have this project, then add a new project using existing github sources option and enter `clusteorne/clusterone-tutorials`. 
+where `username` should be your Clusterone account name. If you don't have this project, see [Install](#install) section to add a new project using existing GitHub sources option and enter `clusteorne/clusterone-tutorials`. 
 
 Let's create a job. Make sure to replace `username` with your username.
 
 ```shell
 just create job distributed \
     --project username/clusterone-tutorials \
-    --name xgboost-job \
-    --docker-image xgboost-0.81-cpu-py36-openmpi3.1.3 \
-    --ps-docker-image xgboost-0.81-cpu-py36-openmpi3.1.3 \
+    --name horovod-job \
+    --docker-image horovod-0.15.0-cpu-py36-tf1.11.0 \
+    --ps-docker-image horovod-0.15.0-cpu-py36-tf1.11.0 \
     --worker-type t2.small \
     --ps-type t2.small \
     --worker-replicas 2 \
     --ps-replicas 1 \
     --time-limit 1h \
-    --command "/dmlc-core/tracker/dmlc-submit --cluster mpi --num-workers 3 python xgboost/main.py" \
+    --command "mpirun --allow-run-as-root -np 3 --hostfile /kube-openmpi/generated/hostfile -bind-to none -map-by slot -mca pml ob1 -mca btl ^openib python openmpi/horovod/main.py" \
     --setup-command "pip install clusterone"
 ```
 
 Now all that's left to do is starting the job:
 
 ```shell
-just start job clusterone-tutorials/xgboost-job
+just start job clusterone-tutorials/horovod-job
 ```
 
 That's it! You can monitor its progress on the command line using `just get events`. More elaborate monitoring is available on the [Matrix](https://clusterone.com/matrix), Clusterone's graphical web interface.
 
-To monitor your job, head to the [Matrix](https://clusterone.com/matrix), Clusterone's graphical web interface.
-
 ## More info
-For XGBoost's tutorial on distributed training, see [here](https://xgboost.readthedocs.io/en/latest/tutorials/aws_yarn.html).
+Horovod's GitHub [repo](https://github.com/uber/horovod/blob/master/docs/running.md) has good explanation of the -mca params. They also have good set of [examples](https://github.com/uber/horovod/tree/master/examples).
 
 For tutorials on other distributed machine learning training, see [here](https://clusterone.com/tutorials).
 
