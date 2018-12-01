@@ -124,6 +124,8 @@ def parse_args():
             logging.warning('Detected multiple files. Using {}.'.format(opts.test_data))
     elif not opts.benchmark:
         raise IOError('Did not detect any files with test_file_pattern "{}"'.format(opts.test_file_pattern))
+    else:
+        opts.test_data = ''
 
     opts.log_dir = get_logs_path(root=opts.local_log_root)
 
