@@ -100,6 +100,8 @@ def parse_args():
     parser.add_argument('--set_verbosity', type=str, default='INFO',
                         choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
                         help='Logging verbosity level')
+    parser.add_argument('--benchmark', action='store_true',
+                        help='Runs with benchmark settings. Ignores all XGBoost parameter inputs.')
 
     # Parse args
     opts = parser.parse_args()
@@ -116,11 +118,11 @@ def parse_args():
     else:
         raise IOError('Did not detect any files with train_file_pattern "{}"'.format(opts.train_file_pattern))
 
-    if test_files:
+    if not opts.benchmark and test_files:
         opts.test_data = test_files[0]
         if len(test_files) > 1:
             logging.warning('Detected multiple files. Using {}.'.format(opts.test_data))
-    else:
+    elif not opts.benchmark:
         raise IOError('Did not detect any files with test_file_pattern "{}"'.format(opts.test_file_pattern))
 
     opts.log_dir = get_logs_path(root=opts.local_log_root)
@@ -130,17 +132,18 @@ def parse_args():
 
 def main(opts):
     """Loads data and runs XGBoost model"""
-    logging.info('Loading train data from {}'.format(opts.train_data))
-
     if opts.cache_data:
-        dtrain = xgb.DMatrix(opts.train_data + '#dtrain.cache', missing=0.)
-        dtest = xgb.DMatrix(opts.test_data + '#dtest.cache', missing=0.)
-    else:
-        dtrain = xgb.DMatrix(opts.train_data, missing=0.)
-        dtest = xgb.DMatrix(opts.test_data, missing=0.)
+        opts.train_data += '#dtrain.cache'
+        opts.test_data += '#dtest.cache'
 
+    logging.info('Loading train data from {}'.format(opts.train_data))
+    dtrain = xgb.DMatrix(opts.train_data, missing=0.)
     logging.debug('Train data shape: {}'.format((dtrain.num_row(), dtrain.num_col())))
-    logging.debug('Test data shape: {}'.format((dtest.num_row(), dtest.num_col())))
+
+    if not opts.benchmark:
+        logging.info('Loading test data from {}'.format(opts.test_data))
+        dtest = xgb.DMatrix(opts.test_data, missing=0.)
+        logging.debug('Test data shape: {}'.format((dtest.num_row(), dtest.num_col())))
 
     params = {
         'silent': opts.silent,
@@ -160,12 +163,13 @@ def main(opts):
 
     logging.info('Parameters: {}'.format(params))
 
-    evallist = [(dtest, 'eval'), (dtrain, 'train')]
-
     logging.info('Training...')
 
     stime_train = time.time()
-    model = xgb.train(params, dtrain, opts.num_round, evallist)
+    if opts.benchmark:
+        model = xgb.train({}, dtrain, 20)
+    else:
+        model = xgb.train(params, dtrain, opts.num_round, [(dtest, 'eval'), (dtrain, 'train')])
 
     logging.info('Training finished. Took {:.2f} seconds'.format(time.time()-stime_train))
 
@@ -180,8 +184,6 @@ def main(opts):
 
 
 if __name__ == '__main__':
-    stime = time.time()
-
     args = parse_args()
     logging.basicConfig(level=args.set_verbosity)
 
@@ -207,10 +209,11 @@ if __name__ == '__main__':
 
     # Run model
     logging.info('Start main routine.')
+    stime = time.time()
     main(args)
+    logging.info('End-to-end main routine time: {} seconds'.format(time.time()-stime))
 
     # MPI::Finalize
     logging.info('Terminating rabit.')
     xgb.rabit.finalize()
 
-    logging.info('End-to-end time: {} seconds'.format(time.time()-stime))
