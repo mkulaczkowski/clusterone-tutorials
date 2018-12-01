@@ -140,37 +140,44 @@ def main(opts):
     dtrain = xgb.DMatrix(opts.train_data, missing=0.)
     logging.debug('Train data shape: {}'.format((dtrain.num_row(), dtrain.num_col())))
 
-    if not opts.benchmark:
+    if opts.benchmark:
+        opts.num_round = 20
+        evallist = []
+
+        # Distributed mode only supports approx method, so force single node to run approx as well for consistency.
+        params = {
+            'tree_method': 'approx'
+        }
+    else:
         logging.info('Loading test data from {}'.format(opts.test_data))
         dtest = xgb.DMatrix(opts.test_data, missing=0.)
         logging.debug('Test data shape: {}'.format((dtest.num_row(), dtest.num_col())))
 
-    params = {
-        'silent': opts.silent,
-        'eta': opts.eta,
-        'gamma': opts.gamma,
-        'max_depth': opts.max_depth,
-        'min_child_weight': opts.min_child_weight,
-        'subsample': opts.subsample,
-        'colsample_bytree': opts.colsample_bytree,
-        'lambda': opts.l2,
-        'alpha': opts.l1,
-        'scale_pos_weight': opts.scale_pos_weight,
-        'objective': opts.objective,
-        'eval_metric': opts.eval_metric,
-        'seed': opts.seed
-    }
+        evallist = [(dtest, 'eval'), (dtrain, 'train')]
+
+        params = {
+            'silent': opts.silent,
+            'eta': opts.eta,
+            'gamma': opts.gamma,
+            'max_depth': opts.max_depth,
+            'min_child_weight': opts.min_child_weight,
+            'subsample': opts.subsample,
+            'colsample_bytree': opts.colsample_bytree,
+            'lambda': opts.l2,
+            'alpha': opts.l1,
+            'scale_pos_weight': opts.scale_pos_weight,
+            'tree_method': opts.tree_method,
+            'objective': opts.objective,
+            'eval_metric': opts.eval_metric,
+            'seed': opts.seed
+        }
 
     logging.info('Parameters: {}'.format(params))
 
     logging.info('Training...')
 
     stime_train = time.time()
-    if opts.benchmark:
-        model = xgb.train({}, dtrain, 20)
-    else:
-        model = xgb.train(params, dtrain, opts.num_round, [(dtest, 'eval'), (dtrain, 'train')])
-
+    model = xgb.train(params, dtrain, opts.num_round, evallist)
     logging.info('Training finished. Took {:.2f} seconds'.format(time.time()-stime_train))
 
     if xgb.rabit.get_rank() == 0:
