@@ -100,6 +100,8 @@ def parse_args():
     parser.add_argument('--set_verbosity', type=str, default='INFO',
                         choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
                         help='Logging verbosity level')
+    parser.add_argument('--benchmark', action='store_true',
+                        help='Runs with benchmark settings. Ignores all XGBoost parameter inputs.')
 
     # Parse args
     opts = parser.parse_args()
@@ -116,12 +118,14 @@ def parse_args():
     else:
         raise IOError('Did not detect any files with train_file_pattern "{}"'.format(opts.train_file_pattern))
 
-    if test_files:
+    if not opts.benchmark and test_files:
         opts.test_data = test_files[0]
         if len(test_files) > 1:
             logging.warning('Detected multiple files. Using {}.'.format(opts.test_data))
-    else:
+    elif not opts.benchmark:
         raise IOError('Did not detect any files with test_file_pattern "{}"'.format(opts.test_file_pattern))
+    else:
+        opts.test_data = ''
 
     opts.log_dir = get_logs_path(root=opts.local_log_root)
 
@@ -130,43 +134,52 @@ def parse_args():
 
 def main(opts):
     """Loads data and runs XGBoost model"""
-    logging.info('Loading train data from {}'.format(opts.train_data))
-
     if opts.cache_data:
-        dtrain = xgb.DMatrix(opts.train_data + '#dtrain.cache', missing=0.)
-        dtest = xgb.DMatrix(opts.test_data + '#dtest.cache', missing=0.)
-    else:
-        dtrain = xgb.DMatrix(opts.train_data, missing=0.)
-        dtest = xgb.DMatrix(opts.test_data, missing=0.)
+        opts.train_data += '#dtrain.cache'
+        opts.test_data += '#dtest.cache'
 
+    logging.info('Loading train data from {}'.format(opts.train_data))
+    dtrain = xgb.DMatrix(opts.train_data, missing=0.)
     logging.debug('Train data shape: {}'.format((dtrain.num_row(), dtrain.num_col())))
-    logging.debug('Test data shape: {}'.format((dtest.num_row(), dtest.num_col())))
 
-    params = {
-        'silent': opts.silent,
-        'eta': opts.eta,
-        'gamma': opts.gamma,
-        'max_depth': opts.max_depth,
-        'min_child_weight': opts.min_child_weight,
-        'subsample': opts.subsample,
-        'colsample_bytree': opts.colsample_bytree,
-        'lambda': opts.l2,
-        'alpha': opts.l1,
-        'scale_pos_weight': opts.scale_pos_weight,
-        'objective': opts.objective,
-        'eval_metric': opts.eval_metric,
-        'seed': opts.seed
-    }
+    if opts.benchmark:
+        opts.num_round = 20
+        evallist = []
+
+        # Distributed mode only supports approx method, so force single node to run approx as well for consistency.
+        params = {
+            'tree_method': 'approx'
+        }
+    else:
+        logging.info('Loading test data from {}'.format(opts.test_data))
+        dtest = xgb.DMatrix(opts.test_data, missing=0.)
+        logging.debug('Test data shape: {}'.format((dtest.num_row(), dtest.num_col())))
+
+        evallist = [(dtest, 'eval'), (dtrain, 'train')]
+
+        params = {
+            'silent': opts.silent,
+            'eta': opts.eta,
+            'gamma': opts.gamma,
+            'max_depth': opts.max_depth,
+            'min_child_weight': opts.min_child_weight,
+            'subsample': opts.subsample,
+            'colsample_bytree': opts.colsample_bytree,
+            'lambda': opts.l2,
+            'alpha': opts.l1,
+            'scale_pos_weight': opts.scale_pos_weight,
+            'tree_method': opts.tree_method,
+            'objective': opts.objective,
+            'eval_metric': opts.eval_metric,
+            'seed': opts.seed
+        }
 
     logging.info('Parameters: {}'.format(params))
-
-    evallist = [(dtest, 'eval'), (dtrain, 'train')]
 
     logging.info('Training...')
 
     stime_train = time.time()
     model = xgb.train(params, dtrain, opts.num_round, evallist)
-
     logging.info('Training finished. Took {:.2f} seconds'.format(time.time()-stime_train))
 
     if xgb.rabit.get_rank() == 0:
@@ -180,8 +193,6 @@ def main(opts):
 
 
 if __name__ == '__main__':
-    stime = time.time()
-
     args = parse_args()
     logging.basicConfig(level=args.set_verbosity)
 
@@ -207,10 +218,11 @@ if __name__ == '__main__':
 
     # Run model
     logging.info('Start main routine.')
+    stime = time.time()
     main(args)
+    logging.info('End-to-end main routine time: {} seconds'.format(time.time()-stime))
 
     # MPI::Finalize
     logging.info('Terminating rabit.')
     xgb.rabit.finalize()
 
-    logging.info('End-to-end time: {} seconds'.format(time.time()-stime))

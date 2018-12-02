@@ -83,7 +83,7 @@ just create job distributed \
     --worker-replicas 2 \
     --ps-replicas 1 \
     --time-limit 1h \
-    --command "/dmlc-core/tracker/dmlc-submit --cluster mpi --num-workers 3 python xgboost/main.py" \
+    --command "/dmlc-core/tracker/dmlc-submit --cluster mpi --num-workers 3 python openmpi/xgboost/main.py" \
     --setup-command "pip install clusterone"
 ```
 
@@ -95,7 +95,17 @@ just start job clusterone-tutorials/xgboost-job
 
 That's it! You can monitor its progress on the command line using `just get events`. More elaborate monitoring is available on the [Matrix](https://clusterone.com/matrix), Clusterone's graphical web interface.
 
+#### Benchmark
+If you're interested in running benchmarks, replace the Python command with the following (on Clusterone platform):
+```shell
+python openmpi/xgboost/main.py --benchmark --data_dir /public/xgboost-benchmark-dataset/
+```
+
+The official benchmark was done using AWS m5.large instances.
+
 ## More info
+Read our [OpenMPI tutorial](https://clusterone.com/tutorials/openmpi-introduction).
+
 For XGBoost's tutorial on distributed training, see [here](https://xgboost.readthedocs.io/en/latest/tutorials/aws_yarn.html).
 
 For tutorials on other distributed machine learning training, see [here](https://clusterone.com/tutorials).
