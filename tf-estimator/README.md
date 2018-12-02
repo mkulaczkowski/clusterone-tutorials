@@ -104,7 +104,7 @@ For a more updated MNIST example, check out our [MNIST repo](https://github.com/
 
 For further info on the MNIST dataset, check out [Yann LeCun's page](http://yann.lecun.com/exdb/mnist/) about it. To learn more about TensorFlow and Deep Learning in general, take a look at the [TensorFlow](https://tensorflow.org) website.
 
-If you have any further questions, don't hesitate to write us a support ticket on [Clusterone.com](https://clusterone.com) or join us on [Slack](https://bit.ly/2OPc6JH)!
+If you have any further questions, don't hesitate to reach out on [Slack](https://bit.ly/2OPc6JH)!
 
 ## License
 
