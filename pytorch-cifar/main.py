@@ -16,6 +16,7 @@ import argparse
 from models import *
 from utils import progress_bar
 
+print(torch.__version__)
 os.system('ls /public')
 os.system('ls /public/cifar-10')
 
@@ -79,7 +80,6 @@ if args.resume:
     start_epoch = checkpoint['epoch']
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=5e-4)
 
 # Training
 def train(epoch):
@@ -139,6 +139,17 @@ def test(epoch):
         best_acc = acc
 
 
-for epoch in range(start_epoch, start_epoch+200):
+for epoch in range(start_epoch, start_epoch+150):
+    optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=5e-4)
+    train(epoch)
+    test(epoch)
+
+for epoch in range(start_epoch+150, start_epoch+250):
+    optimizer = optim.SGD(net.parameters(), lr=args.lr*0.1, momentum=0.9, weight_decay=5e-4)
+    train(epoch)
+    test(epoch)
+
+for epoch in range(start_epoch+250, start_epoch+350):
+    optimizer = optim.SGD(net.parameters(), lr=args.lr*0.01, momentum=0.9, weight_decay=5e-4)
     train(epoch)
     test(epoch)
