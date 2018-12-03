@@ -1,2 +1,4 @@
 tensorboard/data
 tensorboard/code/*/logs 
+pytorch-cifar/checkpoint/*
+pytorch-cifar/data/*

@@ -1,4 +1,4 @@
-# Train CIFAR10 with PyTorch
+# Train CIFAR10 with PyTorch (forked from https://github.com/kuangliu/pytorch-cifar)
 
 I'm playing with [PyTorch](http://pytorch.org/) on the CIFAR10 dataset.
 
@@ -9,7 +9,7 @@ Pros:
 - Very memory efficient!
 
 Cons:
-- No progress bar, sad :(
+- No progress bar.
 - No built-in log.
 
 ## Accuracy
