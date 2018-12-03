@@ -16,6 +16,9 @@ import argparse
 from models import *
 from utils import progress_bar
 
+os.system('ls /public')
+os.system('ls /public/cifar-10')
+
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
 parser.add_argument('--lr', default=0.1, type=float, help='learning rate')
 parser.add_argument('--resume', '-r', action='store_true', help='resume from checkpoint')
