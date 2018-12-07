@@ -79,8 +79,13 @@ where `username` should be your Clusterone account name.
 With your project ready, you can run your code on Clusterone. This is done by creating and starting a job. Make sure to replace `username` with your username.
 
 ```shell
-just create job --name titanic-job --project clusterone-tutorials --module titanic/code/titanic.py
-just start job -p clusterone-tutorials/titanic-job
+just create job single \
+    --name titanic-job \
+    --project username/clusterone-tutorials \
+    --command "python titanic/code/titanic.py" \
+    --setup-command "pip install -r titanic/code/requirements.txt" \
+    --docker-image tensorflow-1.8.0-cpu-py36
+just start job clusterone-tutorials/titanic-job
 ```
 
 To monitor your job, head to the [Matrix](https://clusterone.com/matrix), Clusterone's graphical web interface.
