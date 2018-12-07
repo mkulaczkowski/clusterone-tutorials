@@ -29,12 +29,9 @@ To run this project on your local machine, you need:
 If you're adventurous and want to test MPI locally, I suggest pulling a pre-built Docker image. For example, `docker pull uber/horovod:0.15.0-tf1.11.0-torch0.4.1-py3.5` (be warned, the image is 3GB--see more options [here](https://hub.docker.com/r/uber/horovod/tags/))
 
 To run this project on Clusterone, you need:
-- GitHub account. Create a free account on [https://github.com/](https://github.com/).
 - Clusterone account. Create a free account on [https://clusterone.com/](https://clusterone.com/).
 
-Make sure you've added your [GitHub access token](https://docs.clusterone.com/account/third-party-apps/github-account) to your account.
-
-Then link this repo (`clusterone/clusterone-tutorials`) as a project as shown [here](https://docs.clusterone.com/documentation/projects-on-clusterone/github-projects).
+That's all you need! Add a project by linking this GitHub repo (`clusterone/clusterone-tutorials`) as shown [here](https://docs.clusterone.com/documentation/projects-on-clusterone/github-projects#create-a-project-using-existing-github-repository).
 
 ## Usage
 

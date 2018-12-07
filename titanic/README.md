@@ -12,7 +12,6 @@ This repository contains the code and data files required to run the tutorial mo
 
 - [Install](#install)
 - [Usage](#usage)
-- [More Info](#more-info)
 - [License](#license)
 
 ## Install
@@ -24,13 +23,16 @@ To run this project on your local machine, you need:
 - The TensorFlow Python library. Install it using `pip install tensorflow`
 - The Clusterone Python library. Install it with `pip install clusterone`
 
-Additionally, to run the code on the Clusterone platform, you need a Clusterone account. [Join the waitlist](https://clusterone.com/join-waitlist/) if you don't have an account yet.
-
-To get ready to use the Titanic tutorial, clone this repository to your machine:
-
+Clone this repository to your machine:
 ```shell
 $ git clone https://github.com/clusterone/clusterone-tutorials
 ```
+
+To run this project on Clusterone, you need:
+- Clusterone account. Create a free account on [https://clusterone.com/](https://clusterone.com/).
+
+That's all you need! Add a project by linking this GitHub repo (`clusterone/clusterone-tutorials`) as shown [here](https://docs.clusterone.com/documentation/projects-on-clusterone/github-projects#create-a-project-using-existing-github-repository).
+
 ## Usage
 
 `cd` into the code directory of the Titanic tutorial. The tutorial contains 2 Python script.
@@ -57,36 +59,28 @@ python titanic.py
 
 ### Running on Clusterone
 
-To run the code on Clusterone, you have to create a project and a dataset on the platform. The following instruction use the `just` command line interface, which is automatically installed together with the Clusterone Python package.
+These instructions use the `just` command line tool. It comes with the Clusterone Python library and is installed automatically with the library.
 
-Start by logging into your Clusterone account with `just login`.
+If you have used Clusterone library before with a different Clusterone installation, make sure it is connected to the correct endpoint by running `just config endpoint https://clusterone.com`.
 
-In the code directory, create a new Clusterone project and upload the code to Clusterone:
+Log into your Clusterone account using `just login`, and entering your login information.
 
+First, let's make sure that you have the project. Execute the command `just get projects` to see all your projects. You should see something like this:
 ```shell
-git init
-just init project titanic
-git add .
-git commit -m "Initial commit"
-git push clusterone master
+>> just get projects
+All projects:
+
+| # | Project                       | Created at          | Description |
+|---|-------------------------------|---------------------|-------------|
+| 0 | username/clusterone-tutorials | 2018-11-20T00:00:00 |             |
 ```
+where `username` should be your Clusterone account name.
 
-Now, `cd` into the data directory. Here, create a dataset an upload the data to Clusterone.
-
-```shell
-just create dataset titanic-data
-git init
-just ln dataset -p titanic-data
-git add .
-git commit -m "Initial commit"
-git push clusterone master
-```
-
-With your dataset and project ready, you can run your code on Clusterone. This is done by creating and starting a job.
+With your project ready, you can run your code on Clusterone. This is done by creating and starting a job. Make sure to replace `username` with your username.
 
 ```shell
-just create job --name titanic-job --project titanic --datasets titanic-data --module titanic.py
-just start job -p titanic/titanic-job
+just create job --name titanic-job --project clusterone-tutorials --module titanic/code/titanic.py
+just start job -p clusterone-tutorials/titanic-job
 ```
 
 To monitor your job, head to the [Matrix](https://clusterone.com/matrix), Clusterone's graphical web interface.

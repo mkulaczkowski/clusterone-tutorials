@@ -30,7 +30,6 @@ To run the code, you need:
 - [Git](https://git-scm.com/)
 - TensorFlow 1.5+. Install it like this: `pip install tensorflow==1.7.0` (although the code may run with later versions, the code was written and tested using TF 1.7)
 - The Clusterone Python library. Install it with `pip install clusterone`
-- GitHub account (to run on Clusterone). Create an account for free on [https://github.com/](https://github.com/).
 - Clusterone account (to run on Clusterone). Create an account for free on [https://clusterone.com/](https://clusterone.com/).
 
 For part 2 of the tutorial, you also need the following Python packages:
@@ -46,9 +45,7 @@ git clone https://github.com/clusterone/clusterone-tutorials
 ```
 
 #### To run on Clusterone
-esFollow the [**Set Up**](https://docs.clusterone.com/get-started#set-up) section of the [Get Started](https://docs.clusterone.com/get-started) guide to add your GitHub personal access token to your Clusterone account.
-
-Then follow [Create a project](https://docs.clusterone.com/get-started#create-a-project) section to add clusterone-tutorials project. Use **`clusterone/clusterone-tutorials`** repository instead of what is shown in the guide.
+Add a project by linking this GitHub repo (`clusterone/clusterone-tutorials`) as shown [here](https://docs.clusterone.com/documentation/projects-on-clusterone/github-projects#create-a-project-using-existing-github-repository).
 
 ## Usage
 
