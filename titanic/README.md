@@ -84,9 +84,11 @@ just create job single \
     --project username/clusterone-tutorials \
     --command "python titanic/code/titanic.py" \
     --setup-command "pip install -r titanic/code/requirements.txt" \
-    --docker-image tensorflow-1.8.0-cpu-py36
+    --docker-image tensorflow-1.8.0-cpu-py36 \
+    --instance-type aws-t2-small
 just start job clusterone-tutorials/titanic-job
 ```
+There is no default Docker image with the libraries we need, so you can simply select any Docker image that is available (given that it's CPU compatible) and install the libraries with `pip install`.
 
 To monitor your job, head to the [Matrix](https://clusterone.com/matrix), Clusterone's graphical web interface.
 
