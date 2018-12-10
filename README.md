@@ -4,7 +4,11 @@
 <img src="co_logo.png" alt="Clusterone" width="200">
 </p>
 
+<<<<<<< no-github
 This repository is a collection of code for our tutorials for [Clusterone](https://clusterone.com), [TensorFlow](https://tensorflow.org), and other related things. The tutorials themselves are published on the [Clusterone website](https://clusterone.com/tutorials), while the code lives here in this repository.
+=======
+This repository is a collection of tutorials for [Clusterone](https://clusterone.com), [TensorFlow](https://tensorflow.org), and other related things. The tutorials themselves are published on the [Clusterone Tutorials](https://clusterone.com/blog), while the code lives here in this repository.
+>>>>>>> master
 
 We have several tutorials available:
 
