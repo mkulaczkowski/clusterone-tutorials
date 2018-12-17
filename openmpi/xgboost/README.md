@@ -26,12 +26,9 @@ To run this project on your local machine, you need:
 - The Clusterone Python library. Install it with `pip install clusterone`
 
 To run this project on Clusterone, you need:
-- GitHub account. Create a free account on [https://github.com/](https://github.com/).
 - Clusterone account. Create a free account on [https://clusterone.com/](https://clusterone.com/).
 
-Make sure you've added your [GitHub access token](https://docs.clusterone.com/account/third-party-apps/github-account) to your account.
-
-Then link this repo (`clusterone/clusterone-tutorials`) as a project like shown [here](https://docs.clusterone.com/documentation/projects-on-clusterone/github-projects).
+That's all you need! Add a project by linking this GitHub repo (`clusterone/clusterone-tutorials`) as shown [here](https://docs.clusterone.com/documentation/projects-on-clusterone/github-projects#create-a-project-using-existing-github-repository).
 
 ## Usage
 

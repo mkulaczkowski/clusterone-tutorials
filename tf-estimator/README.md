@@ -19,15 +19,17 @@ Follow the instructions below to run the tutorial code locally and on Clusterone
 
 ## Install
 
-To run the code, you need:
+To run the code locally, you need:
 
 - [Python](https://python.org/) 3.6
 - [Git](https://git-scm.com/)
 - TensorFlow 1.5 or higher. Install it like this: `pip install tensorflow`
 - The Clusterone Python library. Install it with `pip install clusterone`
-- GitHub account. Create an account for free on [https://github.com/](https://github.com/)
-- To run the code on Clusterone, you need a Clusterone account. [Join the waitlist](https://clusterone.com/join-waitlist/) here.
 
+To run this project on Clusterone, you need:
+- Clusterone account. Create a free account on [https://clusterone.com/](https://clusterone.com/).
+
+That's all you need! Add a project by linking this GitHub repo (`clusterone/clusterone-tutorials`) as shown [here](https://docs.clusterone.com/documentation/projects-on-clusterone/github-projects#create-a-project-using-existing-github-repository).
 
 ### Setting Up
 
