@@ -1,4 +1,4 @@
-# Distributed TensorFlow with Estimators
+# Training CycleGAN with Distributed PyTorch
 
 <p align="center">
 <img src="../co_logo.png" alt="Clusterone" width="200">
