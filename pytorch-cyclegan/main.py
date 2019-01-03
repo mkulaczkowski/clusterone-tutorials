@@ -10,8 +10,8 @@ import torch.distributed as dist
 from clusterone import get_logs_path
 
 sys.path.append(os.path.dirname(__file__))
-from .model import CycleGAN
-from .data import ImageDataset, get_transforms, pil_loader
+from model import CycleGAN
+from data import ImageDataset, get_transforms, pil_loader
 
 
 def parse_args():
@@ -92,7 +92,7 @@ def parse_args():
                         help='Logging verbosity.')
 
     # Distributed params
-    master = 'localhost:5000' if os.environ.get('IS_MASTER', 'False') == 'True' else \
+    master = 'localhost:5000' if os.environ.get('IS_MASTER', 'True') == 'True' else \
              os.environ.get('MASTER', 'localhost:5000')
     parser.add_argument('--master', type=str, default=master,
                         help='Address:port of master node')

@@ -1,15 +1,14 @@
 import itertools
 import os
-import pickle
-# import sys
+import sys
 from collections import OrderedDict
 
 import torch
 import torch.nn as nn
 
-# sys.path.append(os.path.dirname(__file__))
-from .networks import define_D, define_G, GANLoss
-from .data import pil_loader, get_inference_transform, get_reverse_transform
+sys.path.append(os.path.dirname(__file__))
+from networks import define_D, define_G, GANLoss
+from data import pil_loader, get_inference_transform, get_reverse_transform
 
 
 class CycleGAN(nn.Module):
