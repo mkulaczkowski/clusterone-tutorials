@@ -8,8 +8,9 @@ This repository is a collection of code for our tutorials for [Clusterone](https
 
 We have several tutorials available:
 
-- [Distributed Horovod & XGBoost with OpenMPI](openmpi/): An introduction tutorial to distributed OpenMPI machine learning training. Read the tutorial post [here](https://clusterone.com/tutorials/openmpi-introduction).
 - [Distributed TensorFlow](tf-estimator/): An introduction to writing distributed TensorFlow code. Read the tutorial post [here](https://clusterone.com/tutorials/distributed-tensorflow) and [here](https://clusterone.com/tutorials/distributed-tensorflow-part-2).
+- [Distributed Horovod & XGBoost with OpenMPI](openmpi/): An introduction tutorial to distributed OpenMPI machine learning training. Read the tutorial post [here](https://clusterone.com/tutorials/openmpi-introduction).
+- [CycleGAN with distributed PyTorch](pytorch-cyclegan/): An advanced tutorial on training a CycleGAN model with distributed PyTorch. Read the tutorial post [here](https://clusterone.com/tutorials/pytorch-cyclegan).
 - [The Titanic Tutorial](titanic/): A basic TensorFlow tutorial utilizing TensorFlow 1.5 and its new high-level Estimators. The code trains a model to predict the survival of passengers of the Titanic based on the passenger list. Read the tutorial post [here](https://clusterone.com/tutorials/tensorflow-titanics).
 - [How to Use TensorBoard](tensorboard/): An introduction to TensorFlow's visualization suite, containing information how to create graphs, scalar plots, output images, and more. Read the tutorial post [here](https://clusterone.com/tutorials/tensorboard-part-1) and [here](https://clusterone.com/tutorials/tensorboard-part-2).
 
