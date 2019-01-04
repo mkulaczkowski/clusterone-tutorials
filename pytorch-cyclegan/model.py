@@ -123,6 +123,7 @@ class CycleGAN(nn.Module):
                         self.loss_idt_A + self.loss_idt_B
         else:
             self.loss = self.loss_G_A + self.loss_G_B + self.loss_cycle_A + self.loss_cycle_B
+        self.loss.backward()
 
     def forward(self, batch_A, batch_B):
         """Run a pair of images through entire network"""
